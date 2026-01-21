@@ -73,3 +73,23 @@ css:
   td: "padding: 4px 6px; border-bottom: 1px solid rgba(255,255,255,0.05);"
 
 ```
+## Hinweis: ING Login-Umstellung / FinTS-Fehler „PIN wrong?“
+
+Nach einer Umstellung des ING-Logins (neuen **Benutzernamen wählen** und **neues Kennwort setzen**) kann es vorkommen, dass die `fints_own`-Integration in Home Assistant mit folgendem Fehler startet:
+
+FinTSClientPINError: Error during dialog initialization, PIN wrong?
+
+Obwohl der Web-Login bei der ING wieder funktioniert, schlägt der FinTS-Zugriff fehl. Ursache ist eine von der Bank invalidierte FinTS-Session, die lokal weiterhin verwendet wird.
+
+### Lösung
+
+1. Im ING-Webbanking einen **Benutzernamen festlegen** und ein **neues Kennwort setzen**
+2. Home Assistant stoppen
+3. Das Verzeichnis  
+   `custom_components/fints_own/__pycache__/`  
+   löschen
+4. Home Assistant neu starten
+
+Nach dem Neustart wird eine neue FinTS-Session aufgebaut und die Integration funktioniert wieder.
+
+
